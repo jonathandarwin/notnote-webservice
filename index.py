@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-from nltk.tokenize import word_tokenize
+# from nltk.tokenize import word_tokenize
 
 app = Flask(__name__)
 api = Api(app)
