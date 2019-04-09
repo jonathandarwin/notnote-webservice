@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-# from nltk.tokenize import word_tokenize
+import os
+from nltk.tokenize import word_tokenize
 
 app = Flask(__name__)
 api = Api(app)
@@ -26,4 +27,5 @@ class Note(Resource):
         #     return 'error',400
 
 api.add_resource(Note, '/note')
-app.run(debug=True)
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port, debug=False)
