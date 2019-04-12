@@ -5,7 +5,7 @@ from flask import request
 app = Flask(__name__)
 import os
 
-@app.route('/postjson', methods=['POST'])
+@app.route('/note', methods=['POST'])
 def post():    
     content = request.get_json()    
     note = content['note']
