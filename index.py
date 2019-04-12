@@ -13,7 +13,8 @@ class Note(Resource):
             parser.add_argument("note")
             args = parser.parse_args()            
 
-            listWord = word_tokenize(args["note"])
+            # listWord = word_tokenize(args["note"])
+            listWord = args["note"]
             result = {
                 "status" : 200,
                 "message" : "",
