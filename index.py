@@ -21,7 +21,7 @@ class Note(Resource):
             }
             return result,200
         except Exception as e:
-            return e,400
+            return e,200
 
 api.add_resource(Note, '/note')
 
