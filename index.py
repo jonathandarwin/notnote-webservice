@@ -11,9 +11,7 @@ class Note(Resource):
         try:
             parser = reqparse.RequestParser()
             parser.add_argument("note")
-            args = parser.parse_args()
-
-            print(args["note"])
+            args = parser.parse_args()            
 
             listWord = word_tokenize(args["note"])
             result = {
@@ -22,8 +20,8 @@ class Note(Resource):
                 "result" : listWord
             }
             return result,200
-        except:
-            return 'error',400
+        except Exception as e:
+            return e,400
 
 api.add_resource(Note, '/note')
 
