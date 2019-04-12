@@ -1,44 +1,16 @@
 from flask import Flask
-from flask_restful import Api, Resource, reqparse
-import os
-from nltk.tokenize import word_tokenize
-
 app = Flask(__name__)
-api = Api(app)
+from flask import Flask
+from flask import request
+app = Flask(__name__)
 
-class Note(Resource):
-    def post(self):        
-        try:
-            parser = reqparse.RequestParser()
-            parser.add_argument("note")
-            args = parser.parse_args()            
+@app.route('/postjson', methods=['POST'])
+def post():    
+    content = request.get_json()    
+    note = content['note']
+    
+    return note,200
 
-            # listWord = word_tokenize(args["note"])
-            listWord = args["note"]
-            result = {
-                "status" : 200,
-                "message" : "",
-                "result" : listWord
-            }
-            return result,200
-        except Exception as e:
-            return e,200
-
-api.add_resource(Note, '/note')
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
-
-# import os
-# from flask import Flask
-# app = Flask(__name__)
-
-# @app.route("/")
-# def hello():
-#     return "Hello World",200
-
-# if __name__ == "__main__":
-#     port = int(os.environ.get("PORT", 5000))
-#     app.run(host='0.0.0.0', port=port)
