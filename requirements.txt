@@ -1,3 +1,6 @@
 Flask==1.0.2
 Flask-RESTful==0.3.7
 nltk==3.4
+requests==2.21.0
+pyparsing==2.3.1
+configparser==3.7.4
