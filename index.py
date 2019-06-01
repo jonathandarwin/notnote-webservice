@@ -13,26 +13,48 @@ import pickle
 
 app = Flask(__name__)
 
+@app.route('/train', methods=['POST'])
+def post():                
+    vectorizer = TfidfVectorizer()
+    classifier = LogisticRegression()
+    
+    data = load_files('train')    
+    dataset, label = data.data, data.target
+    
+    dataset_train = vectorizer.fit_transform(dataset)    
+    classifier.fit(dataset_train, label)
+
+    with open('model.pickle', 'wb') as classifier_file:
+        pickle.dump(classifier, classifier_file)
+        print("Save model success!")
+
+    with open('vectorizer.pickle', 'wb') as vectorizer_file:
+        pickle.dump(vectorizer, vectorizer_file)
+        print('Save vectorizer success!')
+        
+    return "Train Success"
+    
+
 @app.route('/note', methods=['POST'])
 def post():        
     note = request.form.get('note')
 
-    category = ''
-    # STEP 1 : Remove stopwords
-    listWord = word_tokenize(note)  
-    listStopWords = stopwords.words('english')
-    listTemp = []
-    for word in listWord:
-        if(word.lower() not in listStopWords):
-            listTemp.append(word)
-    listWord = listTemp
+    # category = ''
+    # # STEP 1 : Remove stopwords
+    # listWord = word_tokenize(note)  
+    # listStopWords = stopwords.words('english')
+    # listTemp = []
+    # for word in listWord:
+    #     if(word.lower() not in listStopWords):
+    #         listTemp.append(word)
+    # listWord = listTemp
 
-    # STEP 2 : Lematizing
-    listTemp = []
-    lemmatizer = WordNetLemmatizer()
-    for word in listWord:
-        listTemp.append(lemmatizer.lemmatize(word))
-    listWord = listTemp
+    # # STEP 2 : Lematizing
+    # listTemp = []
+    # lemmatizer = WordNetLemmatizer()
+    # for word in listWord:
+    #     listTemp.append(lemmatizer.lemmatize(word))
+    # listWord = listTemp
 
     # STEP 3 : Load Vectorizer and Model (Train if there are no model.pickle or vectorizer.pickle)
     with open('model.pickle', 'rb') as classifier_file:        
@@ -40,6 +62,9 @@ def post():
             vectorizer = pickle.load(vectorizer_file, encoding='latin1')
             model = pickle.load(classifier_file, encoding='latin1')    
 
+            # vectorizer = pickle.load(vectorizer_file)
+            # model = pickle.load(classifier_file)    
+            word = note
             # STEP 4 : Transform word with tfidf
             transform_word = vectorizer.transform([word])
             predictions = model.predict(transform_word)
@@ -56,6 +81,7 @@ def post():
         'result' : category
     }
     return json.dumps(result)
+
 
 if __name__ == "__main__":
     # abis di push, tambahin command ini
