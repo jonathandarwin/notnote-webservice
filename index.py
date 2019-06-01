@@ -35,8 +35,8 @@ def post():
     listWord = listTemp
 
     # STEP 3 : Load Vectorizer and Model
-    with open('model.pickle', 'rb') as classifier_file:        
-        with open('vectorizer.pickle', 'rb') as vectorizer_file:
+    with open('model.pickle', 'rb', encoding="utf-8") as classifier_file:        
+        with open('vectorizer.pickle', 'rb', encoding="utf-8") as vectorizer_file:
             vectorizer = pickle.load(vectorizer_file)
             model = pickle.load(classifier_file)    
 
