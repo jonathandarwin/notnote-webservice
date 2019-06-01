@@ -16,11 +16,11 @@ app = Flask(__name__)
 def post():        
     note = request.form.get('note') 
     listWord = word_tokenize(note)  
-    listStopWords = stopwords.words('english')
+    # listStopWords = stopwords.words('english')
     listTemp = []
     for word in listWord:
-        if(word.lower() not in listStopWords):
-            listTemp.append(word)
+        # if(word.lower() not in listStopWords):
+        listTemp.append(word)
 
     result = {
         'result' : listTemp
