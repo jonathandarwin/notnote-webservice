@@ -37,31 +37,31 @@ def postTrain():
 def postPredict():        
     note = request.form.get('note')
 
-    # category = ''
-    # # STEP 1 : Remove stopwords
-    # listWord = word_tokenize(note)  
-    # listStopWords = stopwords.words('english')
-    # listTemp = []
-    # for word in listWord:
-    #     if(word.lower() not in listStopWords):
-    #         listTemp.append(word)
-    # listWord = listTemp
+    category = ''
+    # STEP 1 : Remove stopwords
+    listWord = word_tokenize(note)  
+    listStopWords = stopwords.words('english')
+    listTemp = []
+    for word in listWord:
+        if(word.lower() not in listStopWords):
+            listTemp.append(word)
+    listWord = listTemp
 
-    # # STEP 2 : Lematizing
-    # listTemp = []
-    # lemmatizer = WordNetLemmatizer()
-    # for word in listWord:
-    #     listTemp.append(lemmatizer.lemmatize(word))
-    # listWord = listTemp
+    # STEP 2 : Lematizing
+    listTemp = []
+    lemmatizer = WordNetLemmatizer()
+    for word in listWord:
+        listTemp.append(lemmatizer.lemmatize(word))
+    listWord = listTemp
 
     # STEP 3 : Load Vectorizer and Model (Train if there are no model.pickle or vectorizer.pickle)
     with open('model.pickle', 'rb') as classifier_file:        
         with open('vectorizer.pickle', 'rb') as vectorizer_file:
-            vectorizer = pickle.load(vectorizer_file, encoding='latin1')
-            model = pickle.load(classifier_file, encoding='latin1')    
+            # vectorizer = pickle.load(vectorizer_file, encoding='latin1')
+            # model = pickle.load(classifier_file, encoding='latin1')    
 
-            # vectorizer = pickle.load(vectorizer_file)
-            # model = pickle.load(classifier_file)    
+            vectorizer = pickle.load(vectorizer_file)
+            model = pickle.load(classifier_file)    
             word = note
             # STEP 4 : Transform word with tfidf
             transform_word = vectorizer.transform([word])
