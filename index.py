@@ -14,7 +14,7 @@ import pickle
 app = Flask(__name__)
 
 @app.route('/train', methods=['POST'])
-def post():                
+def postTrain():                
     vectorizer = TfidfVectorizer()
     classifier = LogisticRegression()
     
@@ -25,18 +25,16 @@ def post():
     classifier.fit(dataset_train, label)
 
     with open('model.pickle', 'wb') as classifier_file:
-        pickle.dump(classifier, classifier_file)
-        print("Save model success!")
+        pickle.dump(classifier, classifier_file)        
 
     with open('vectorizer.pickle', 'wb') as vectorizer_file:
-        pickle.dump(vectorizer, vectorizer_file)
-        print('Save vectorizer success!')
+        pickle.dump(vectorizer, vectorizer_file)        
         
     return "Train Success"
     
 
 @app.route('/note', methods=['POST'])
-def post():        
+def postPredict():        
     note = request.form.get('note')
 
     # category = ''
