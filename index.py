@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 import json
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,16 +15,26 @@ app = Flask(__name__)
 
 @app.route('/note', methods=['POST'])
 def post():        
-    note = request.form.get('note') 
+    note = request.form.get('note')
+
+    # STEP 1 : Remove stopwords
     listWord = word_tokenize(note)  
     listStopWords = stopwords.words('english')
     listTemp = []
     for word in listWord:
         if(word.lower() not in listStopWords):
             listTemp.append(word)
+    listWord = listTemp
+
+    # STEP 2 : Lematizing
+    listTemp = []
+    lemmatizer = WordNetLemmatizer()
+    for word in listWord:
+        listTemp.append(lemmatizer.lemmatize(word))
+    listWord = listTemp
 
     result = {
-        'result' : listTemp
+        'result' : listWord
     }
     return json.dumps(result)
 
