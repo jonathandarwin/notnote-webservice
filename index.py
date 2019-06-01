@@ -34,11 +34,11 @@ def post():
         listTemp.append(lemmatizer.lemmatize(word))
     listWord = listTemp
 
-    # STEP 3 : Load Vectorizer and Model
-    with open('model.pickle', 'r') as classifier_file:        
-        with open('vectorizer.pickle', 'r') as vectorizer_file:
-            vectorizer = pickle.load(vectorizer_file)
-            model = pickle.load(classifier_file)    
+    # STEP 3 : Load Vectorizer and Model (Train if there are no model.pickle or vectorizer.pickle)
+    with open('model.pickle', 'rb') as classifier_file:        
+        with open('vectorizer.pickle', 'rb') as vectorizer_file:
+            vectorizer = pickle.load(vectorizer_file, encoding='latin1')
+            model = pickle.load(classifier_file, encoding='latin1')    
 
             # STEP 4 : Transform word with tfidf
             transform_word = vectorizer.transform([word])
