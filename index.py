@@ -17,6 +17,7 @@ app = Flask(__name__)
 def post():        
     note = request.form.get('note')
 
+    category = ''
     # STEP 1 : Remove stopwords
     listWord = word_tokenize(note)  
     listStopWords = stopwords.words('english')
@@ -33,8 +34,26 @@ def post():
         listTemp.append(lemmatizer.lemmatize(word))
     listWord = listTemp
 
+    # STEP 3 : Load Vectorizer and Model
+    with open('model.pickle', 'rb') as classifier_file:        
+        with open('vectorizer.pickle', 'rb') as vectorizer_file:
+            vectorizer = pickle.load(vectorizer_file)
+            model = pickle.load(classifier_file)    
+
+            # STEP 4 : Transform word with tfidf
+            transform_word = vectorizer.transform([word])
+            predictions = model.predict(transform_word)
+
+            if predictions[0] == 0:
+                category = 'food'
+            elif predictions[0] == 1:
+                category = 'secret'
+            else:
+                category = 'todo'
+    
+
     result = {
-        'result' : listWord
+        'result' : category
     }
     return json.dumps(result)
 
