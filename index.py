@@ -10,7 +10,6 @@ from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.datasets import load_files
 from sklearn.model_selection import train_test_split, cross_val_score
 import pickle
-import Parameters
 
 app = Flask(__name__)
 
@@ -36,9 +35,8 @@ def postTrain():
 
 @app.route('/note', methods=['POST'])
 def postPredict():        
-    # note = request.form.get('note')
-    req = request.get_json()
-    note = req[Parameters.note]
+    note = request.form.get('note')    
+    print(note)
 
     category = ''
     # STEP 1 : Remove stopwords
