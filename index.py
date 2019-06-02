@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, jsonify
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -10,6 +10,7 @@ from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.datasets import load_files
 from sklearn.model_selection import train_test_split, cross_val_score
 import pickle
+import Parameters
 
 app = Flask(__name__)
 
@@ -35,7 +36,9 @@ def postTrain():
 
 @app.route('/note', methods=['POST'])
 def postPredict():        
-    note = request.form.get('note')
+    # note = request.form.get('note')
+    req = request.get_json()
+    note = req[Parameters.note]
 
     category = ''
     # STEP 1 : Remove stopwords
@@ -78,7 +81,8 @@ def postPredict():
     result = {
         'result' : category
     }
-    return json.dumps(result)
+    # return json.dumps(result)
+    return jsonify(result)
 
 
 if __name__ == "__main__":
