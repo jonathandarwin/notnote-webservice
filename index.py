@@ -35,8 +35,9 @@ def postTrain():
 
 @app.route('/note', methods=['POST'])
 def postPredict():        
-    note = request.form.get('note')    
-    print(note)
+    # note = request.form.get('note')    
+    data = request.get_json()
+    note = data['note']
 
     category = ''
     # STEP 1 : Remove stopwords
