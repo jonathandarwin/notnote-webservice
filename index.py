@@ -10,6 +10,7 @@ from sklearn.linear_model.logistic import LogisticRegression
 from sklearn.datasets import load_files
 from sklearn.model_selection import train_test_split, cross_val_score
 import pickle
+from os import path
 
 app = Flask(__name__)
 
@@ -56,7 +57,10 @@ def postPredict():
         listTemp.append(lemmatizer.lemmatize(word))
     listWord = listTemp
 
-    # STEP 3 : Load Vectorizer and Model (Train if there are no model.pickle or vectorizer.pickle)
+    # STEP 3 : Load Vectorizer and Model (Train if there are no model.pickle or vectorizer.pickle)    
+    if(path.exists('model.pickle') == False or path.exists('vectorizer.pickle') == False):
+        postTrain()
+
     with open('model.pickle', 'rb') as classifier_file:        
         with open('vectorizer.pickle', 'rb') as vectorizer_file:
             # vectorizer = pickle.load(vectorizer_file, encoding='latin1')
@@ -74,7 +78,7 @@ def postPredict():
             elif predictions[0] == 1:
                 category = 'secret'
             else:
-                category = 'todo'
+                category = 'todo'    
     
 
     result = {
