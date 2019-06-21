@@ -21,9 +21,9 @@ Predict Function is used to predict the note in the real implementation.
 <br>
 Step of predict the note:
   1. Preprocessing the note
-    - Tokenize note
-    - Remove Stopwords
-    - Lemmatize each word
+      - Tokenize note
+      - Remove Stopwords
+      - Lemmatize each word
   2. Load vectorizer pickle and model pickle
   3. Transform the note using TF-IDF vectorizer
   4. Predict the note using trained model
